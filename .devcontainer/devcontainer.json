@@ -1,0 +1,15 @@
+{
+  "name": "furniture-design-rest-api",
+  "dockerComposeFile": [
+    "docker-compose.yml"
+  ],
+  "service": "furniture-design-rest-api",
+  "workspaceFolder": "/home/vscode/furniture-design-rest-api",
+  "remoteUser": "vscode",
+  "shutdownAction": "stopCompose",
+  "extensions": [
+    "vscjava.vscode-java-pack",
+    "vscjava.vscode-spring-initializr",
+    "vscjava.vscode-gradle"
+  ]
+}
