@@ -1,72 +1,85 @@
 package com.furniture_design.furniture_design_rest_api.controllers;
 
-import java.util.List;
+import java.net.URI;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.furniture_design.furniture_design_rest_api.models.FurnitureItem;
 
 @RestController
+@RequestMapping(path = FurnitureController.BASE_URL)
 public class FurnitureController {
-
+  public static final String BASE_URL = "/api/v1/furnitures";
+  private final AtomicInteger _counter = new AtomicInteger();
   private final List<FurnitureItem> _furnitureItems = new ArrayList<>() {
     {
-      add(new FurnitureItem(1, "furniture 1"));
-      add(new FurnitureItem(2, "furniture 2"));
-      add(new FurnitureItem(3, "furniture 3"));
+      add(new FurnitureItem(_counter.incrementAndGet(), "furniture 1"));
+      add(new FurnitureItem(_counter.incrementAndGet(), "furniture 2"));
+      add(new FurnitureItem(_counter.incrementAndGet(), "furniture 3"));
     }
   };
 
-  @RequestMapping(method = RequestMethod.GET, path = "/furnitures")
-  public List<FurnitureItem> getFurnitureItems() {
-    return _furnitureItems;
+  @GetMapping(path = "")
+  public ResponseEntity<List<FurnitureItem>> getFurnitureItems() {
+    return ResponseEntity.ok(_furnitureItems);
   }
 
-  @RequestMapping(method = RequestMethod.GET, path = "/furnitures/{id}")
-  public FurnitureItem getFurnitureItem(@PathVariable int id) {
+  @GetMapping(path = "/{id}")
+  public ResponseEntity<FurnitureItem> getFurnitureItem(@PathVariable int id) {
     FurnitureItem found = _getItemById(id);
-    if (found == null) {
-      // return 404
+    return ResponseEntity.ok(found);
+  }
+
+  @PostMapping(path = "")
+  public ResponseEntity<FurnitureItem> createFurnitureItem(
+      @RequestBody FurnitureItem newFurnitureItem) {
+    if (Objects.isNull(newFurnitureItem.getTitle())) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Title must not be null.");
     }
-
-    return found;
+    newFurnitureItem.setId(_counter.incrementAndGet());
+    _furnitureItems.add(newFurnitureItem);
+    URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+        .buildAndExpand(newFurnitureItem.getId()).toUri();
+    return ResponseEntity.created(location).body(newFurnitureItem);
   }
 
-  @RequestMapping(method = RequestMethod.POST, path = "/furnitures")
-  public FurnitureItem createFurnitureItem(@RequestBody FurnitureItem furnitureItem) {
-    furnitureItem.setId(4);
-    _furnitureItems.add(furnitureItem);
-    return furnitureItem;
-  }
-
-  @RequestMapping(method = RequestMethod.PUT, path = "/furnitures/{id}")
-  public FurnitureItem updateFurnitureItem(@RequestBody FurnitureItem furnitureItem,
+  @PutMapping(path = "/{id}")
+  public ResponseEntity<?> updateFurnitureItem(@RequestBody FurnitureItem furnitureItem,
       @PathVariable int id) {
     FurnitureItem found = _getItemById(id);
-    if (found == null) {
-      // return 404
-    }
-
     _furnitureItems.remove(found);
     _furnitureItems.add(furnitureItem);
-
-    return furnitureItem;
+    return ResponseEntity.noContent().build();
   }
 
-  @RequestMapping(method = RequestMethod.DELETE, path = "/furnitures/{id}")
-  public void removeFurnitureItem(@PathVariable int id) {
+  @DeleteMapping(path = "/{id}")
+  public ResponseEntity<?> removeFurnitureItem(@PathVariable int id) {
     FurnitureItem found = _getItemById(id);
-    if (found == null) {
-      // return 404
-    }
     _furnitureItems.remove(found);
+    return ResponseEntity.noContent().build();
   }
 
   private FurnitureItem _getItemById(int id) {
-    return _furnitureItems.stream().filter(item -> item.getId() == id).findAny().orElse(null);
+    Optional<FurnitureItem> found =
+        _furnitureItems.stream().filter(item -> item.getId() == id).findAny();
+    if (!found.isPresent()) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not Found");
+    }
+    return found.get();
   }
 
 }
