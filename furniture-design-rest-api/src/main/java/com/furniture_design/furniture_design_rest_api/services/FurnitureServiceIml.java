@@ -44,7 +44,7 @@ public class FurnitureServiceIml implements FurnitureService {
   private FurnitureItem _findFunitureItemById(int id) throws NotFoundException {
     Optional<FurnitureItem> found = _furnitureRepository.findById(id);
     if (!found.isPresent()) {
-      throw new NotFoundException("The todo item is not available.");
+      throw new NotFoundException("The furniture item is not available.");
     }
     return found.get();
   }

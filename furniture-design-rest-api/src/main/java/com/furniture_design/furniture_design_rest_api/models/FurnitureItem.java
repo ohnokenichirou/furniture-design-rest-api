@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "furnitures", schema = "business")
 public class FurnitureItem {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id", nullable = false)
   private int id;
   @NotBlank(message = "Title must not be blank.")

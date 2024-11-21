@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import com.furniture_design.furniture_design_rest_api.errors.NotFoundException;
 import com.furniture_design.furniture_design_rest_api.models.FurnitureItem;
@@ -55,7 +54,7 @@ public class FurnitureServiceImlWithoutRepo implements FurnitureService {
     Optional<FurnitureItem> found =
         _furnitureItems.stream().filter(item -> item.getId() == id).findAny();
     if (!found.isPresent()) {
-      throw new NotFoundException("The todo item is not available.");
+      throw new NotFoundException("The furniture item is not available.");
     }
     return found.get();
   }
