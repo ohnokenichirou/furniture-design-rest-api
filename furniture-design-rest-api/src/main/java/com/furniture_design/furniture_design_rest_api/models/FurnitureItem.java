@@ -20,9 +20,12 @@ import lombok.NoArgsConstructor;
 @Table(name = "furnitures", schema = "business")
 public class FurnitureItem {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "id", nullable = false)
   private int id;
+  @NotBlank(message = "FilePath must not be blank.")
+  @Column(name = "filePath", nullable = false)
+  private String filePath;
   @NotBlank(message = "Title must not be blank.")
   @Column(name = "title", nullable = false)
   private String title;
@@ -33,6 +36,15 @@ public class FurnitureItem {
   @NotEmpty(message = "Texts must not be blank")
   @Column(name = "texts", nullable = false)
   private String[] texts;
+  @NotNull(message = "Width must not be blank")
+  @Column(name = "width", nullable = false)
+  private Integer width;
+  @NotNull(message = "Depth must not be blank")
+  @Column(name = "depth", nullable = false)
+  private Integer depth;
+  @NotNull(message = "Height must not be blank")
+  @Column(name = "height", nullable = false)
+  private Integer height;
   @NotBlank(message = "Color must not be blank.")
   @Column(name = "color", nullable = false)
   private String color;

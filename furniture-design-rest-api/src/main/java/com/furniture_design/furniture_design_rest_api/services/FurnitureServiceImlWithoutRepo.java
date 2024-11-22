@@ -13,9 +13,12 @@ public class FurnitureServiceImlWithoutRepo implements FurnitureService {
   private final AtomicInteger _counter = new AtomicInteger();
   private final List<FurnitureItem> _furnitureItems = new ArrayList<>() {
     {
-      add(new FurnitureItem(_counter.incrementAndGet(), "furniture 1", 0, new String[0], "", ""));
-      add(new FurnitureItem(_counter.incrementAndGet(), "furniture 2", 0, new String[0], "", ""));
-      add(new FurnitureItem(_counter.incrementAndGet(), "furniture 3", 0, new String[0], "", ""));
+      add(new FurnitureItem(_counter.incrementAndGet(), "", "furniture 1", 0, new String[0], 0, 0,
+          0, "", ""));
+      add(new FurnitureItem(_counter.incrementAndGet(), "", "furniture 2", 0, new String[0], 0, 0,
+          0, "", ""));
+      add(new FurnitureItem(_counter.incrementAndGet(), "", "furniture 3", 0, new String[0], 0, 0,
+          0, "", ""));
     }
   };
 
