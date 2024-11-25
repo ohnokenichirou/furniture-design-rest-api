@@ -1,5 +1,6 @@
 package com.furniture_design.furniture_design_rest_api.models;
 
+import java.io.Serializable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,36 +19,45 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "furnitures", schema = "business")
-public class FurnitureItem {
+public class FurnitureItem implements Serializable {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id", nullable = false)
-  private int id;
+  private Long id;
+
   @NotBlank(message = "FilePath must not be blank.")
   @Column(name = "filePath", nullable = false)
   private String filePath;
+
   @NotBlank(message = "Title must not be blank.")
   @Column(name = "title", nullable = false)
   private String title;
+
   @NotNull(message = "Price must not be blank")
   @Column(name = "price", nullable = false)
   private Integer price;
+
   @NotNull(message = "Texts must not be blank")
   @NotEmpty(message = "Texts must not be blank")
   @Column(name = "texts", nullable = false)
   private String[] texts;
+
   @NotNull(message = "Width must not be blank")
   @Column(name = "width", nullable = false)
   private Integer width;
+
   @NotNull(message = "Depth must not be blank")
   @Column(name = "depth", nullable = false)
   private Integer depth;
+
   @NotNull(message = "Height must not be blank")
   @Column(name = "height", nullable = false)
   private Integer height;
+
   @NotBlank(message = "Color must not be blank.")
   @Column(name = "color", nullable = false)
   private String color;
+
   @NotBlank(message = "Material must not be blank.")
   @Column(name = "material", nullable = false)
   private String material;
