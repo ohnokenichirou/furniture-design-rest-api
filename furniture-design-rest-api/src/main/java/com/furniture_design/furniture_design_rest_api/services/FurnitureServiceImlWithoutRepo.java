@@ -30,7 +30,7 @@ public class FurnitureServiceImlWithoutRepo implements FurnitureService {
   }
 
   @Override
-  public List<FurnitureItem> getFurnitureItems() {
+  public List<FurnitureItem> getFurnitureItems(int page, int limit) {
     return this._furnitureItems;
   }
 

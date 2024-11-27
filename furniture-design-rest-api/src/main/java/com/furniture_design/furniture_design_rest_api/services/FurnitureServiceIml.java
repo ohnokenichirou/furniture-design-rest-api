@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.furniture_design.furniture_design_rest_api.errors.NotFoundException;
 import com.furniture_design.furniture_design_rest_api.models.FurnitureItem;
@@ -22,8 +25,10 @@ public class FurnitureServiceIml implements FurnitureService {
   }
 
   @Override
-  public List<FurnitureItem> getFurnitureItems() {
-    return _furnitureRepository.findAll();
+  public List<FurnitureItem> getFurnitureItems(int page, int limit) {
+    Pageable pageable = PageRequest.of(page - 1, limit);
+    Page<FurnitureItem> pageList = _furnitureRepository.findAll(pageable);
+    return pageList.getContent();
   }
 
   @Override

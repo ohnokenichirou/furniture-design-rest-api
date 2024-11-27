@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.furniture_design.furniture_design_rest_api.models.FurnitureItem;
@@ -19,6 +21,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(path = FurnitureController.BASE_URL)
+@CrossOrigin(origins = "http://localhost:3000")
 public class FurnitureController {
   public static final String BASE_URL = "/api/v1/furnitures";
 
@@ -26,8 +29,10 @@ public class FurnitureController {
   private FurnitureService _furnituteService;
 
   @GetMapping(path = "")
-  public ResponseEntity<List<FurnitureItem>> getFurnitureItems() {
-    List<FurnitureItem> furnitureItems = _furnituteService.getFurnitureItems();
+  public ResponseEntity<List<FurnitureItem>> getFurnitureItems(
+      @RequestParam(name = "page", defaultValue = "1") int page,
+      @RequestParam(name = "limit", defaultValue = "10") int limit) {
+    List<FurnitureItem> furnitureItems = _furnituteService.getFurnitureItems(page, limit);
     return ResponseEntity.ok(furnitureItems);
   }
 

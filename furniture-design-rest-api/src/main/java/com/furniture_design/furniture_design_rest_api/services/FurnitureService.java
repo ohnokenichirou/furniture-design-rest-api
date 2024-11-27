@@ -6,7 +6,7 @@ import com.furniture_design.furniture_design_rest_api.models.FurnitureItem;
 public interface FurnitureService {
   public FurnitureItem saveFurnitureItem(FurnitureItem furnitureItem);
 
-  public List<FurnitureItem> getFurnitureItems();
+  public List<FurnitureItem> getFurnitureItems(int page, int limit);
 
   public FurnitureItem getFurnitureItemById(int id);
 
