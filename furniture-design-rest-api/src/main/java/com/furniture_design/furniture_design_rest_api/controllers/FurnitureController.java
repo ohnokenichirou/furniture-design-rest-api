@@ -32,7 +32,7 @@ public class FurnitureController {
   }
 
   @GetMapping(path = "/{id}")
-  public ResponseEntity<FurnitureItem> getFurnitureItem(@PathVariable int id) {
+  public ResponseEntity<FurnitureItem> getFurnitureItem(@PathVariable("id") int id) {
     FurnitureItem found = _furnituteService.getFurnitureItemById(id);
     return ResponseEntity.ok(found);
   }
@@ -48,13 +48,13 @@ public class FurnitureController {
 
   @PutMapping(path = "/{id}")
   public ResponseEntity<?> updateFurnitureItem(@RequestBody FurnitureItem newfurnitureItem,
-      @PathVariable int id) {
+      @PathVariable("id") int id) {
     _furnituteService.updateFurnitureItem(id, newfurnitureItem);
     return ResponseEntity.noContent().build();
   }
 
   @DeleteMapping(path = "/{id}")
-  public ResponseEntity<?> removeFurnitureItem(@PathVariable int id) {
+  public ResponseEntity<?> removeFurnitureItem(@PathVariable("id") int id) {
     _furnituteService.removeFurnitureItem(id);
     return ResponseEntity.noContent().build();
   }
