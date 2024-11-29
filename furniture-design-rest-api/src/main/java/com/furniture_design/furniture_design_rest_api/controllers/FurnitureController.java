@@ -1,8 +1,8 @@
 package com.furniture_design.furniture_design_rest_api.controllers;
 
 import java.net.URI;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,15 +29,15 @@ public class FurnitureController {
   private FurnitureService _furnituteService;
 
   @GetMapping(path = "")
-  public ResponseEntity<List<FurnitureItem>> getFurnitureItems(
+  public ResponseEntity<Page<FurnitureItem>> getFurnitureItems(
       @RequestParam(name = "page", defaultValue = "1") int page,
       @RequestParam(name = "limit", defaultValue = "10") int limit) {
-    List<FurnitureItem> furnitureItems = _furnituteService.getFurnitureItems(page, limit);
+    Page<FurnitureItem> furnitureItems = _furnituteService.getFurnitureItems(page, limit);
     return ResponseEntity.ok(furnitureItems);
   }
 
   @GetMapping(path = "/{id}")
-  public ResponseEntity<FurnitureItem> getFurnitureItem(@PathVariable("id") int id) {
+  public ResponseEntity<FurnitureItem> getFurnitureItem(@PathVariable("id") Long id) {
     FurnitureItem found = _furnituteService.getFurnitureItemById(id);
     return ResponseEntity.ok(found);
   }
@@ -53,13 +53,13 @@ public class FurnitureController {
 
   @PutMapping(path = "/{id}")
   public ResponseEntity<?> updateFurnitureItem(@RequestBody FurnitureItem newfurnitureItem,
-      @PathVariable("id") int id) {
+      @PathVariable("id") Long id) {
     _furnituteService.updateFurnitureItem(id, newfurnitureItem);
     return ResponseEntity.noContent().build();
   }
 
   @DeleteMapping(path = "/{id}")
-  public ResponseEntity<?> removeFurnitureItem(@PathVariable("id") int id) {
+  public ResponseEntity<?> removeFurnitureItem(@PathVariable("id") Long id) {
     _furnituteService.removeFurnitureItem(id);
     return ResponseEntity.noContent().build();
   }

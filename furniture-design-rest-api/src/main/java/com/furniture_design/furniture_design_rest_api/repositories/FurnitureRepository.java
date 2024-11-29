@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import com.furniture_design.furniture_design_rest_api.models.FurnitureItem;
 
 @Repository
-public interface FurnitureRepository extends JpaRepository<FurnitureItem, Integer> {
+public interface FurnitureRepository extends JpaRepository<FurnitureItem, Long> {
 
 }

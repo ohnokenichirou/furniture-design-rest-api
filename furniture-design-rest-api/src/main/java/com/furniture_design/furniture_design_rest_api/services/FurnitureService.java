@@ -1,16 +1,16 @@
 package com.furniture_design.furniture_design_rest_api.services;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
 import com.furniture_design.furniture_design_rest_api.models.FurnitureItem;
 
 public interface FurnitureService {
   public FurnitureItem saveFurnitureItem(FurnitureItem furnitureItem);
 
-  public List<FurnitureItem> getFurnitureItems(int page, int limit);
+  public Page<FurnitureItem> getFurnitureItems(int page, int limit);
 
-  public FurnitureItem getFurnitureItemById(int id);
+  public FurnitureItem getFurnitureItemById(Long id);
 
-  public void removeFurnitureItem(int id);
+  public void removeFurnitureItem(Long id);
 
-  public FurnitureItem updateFurnitureItem(int id, FurnitureItem furnitureItem);
+  public FurnitureItem updateFurnitureItem(Long id, FurnitureItem furnitureItem);
 }

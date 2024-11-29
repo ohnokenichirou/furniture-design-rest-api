@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 import com.furniture_design.furniture_design_rest_api.errors.NotFoundException;
 import com.furniture_design.furniture_design_rest_api.models.FurnitureItem;
@@ -30,30 +32,30 @@ public class FurnitureServiceImlWithoutRepo implements FurnitureService {
   }
 
   @Override
-  public List<FurnitureItem> getFurnitureItems(int page, int limit) {
-    return this._furnitureItems;
+  public Page<FurnitureItem> getFurnitureItems(int page, int limit) {
+    return new PageImpl<>(this._furnitureItems);
   }
 
   @Override
-  public FurnitureItem getFurnitureItemById(int id) {
+  public FurnitureItem getFurnitureItemById(Long id) {
     return _getItemById(id);
   }
 
   @Override
-  public void removeFurnitureItem(int id) {
+  public void removeFurnitureItem(Long id) {
     FurnitureItem found = _getItemById(id);
     _furnitureItems.remove(found);
   }
 
   @Override
-  public FurnitureItem updateFurnitureItem(int id, FurnitureItem furnitureItem) {
+  public FurnitureItem updateFurnitureItem(Long id, FurnitureItem furnitureItem) {
     FurnitureItem found = _getItemById(id);
     _furnitureItems.remove(found);
     _furnitureItems.add(furnitureItem);
     return furnitureItem;
   }
 
-  private FurnitureItem _getItemById(int id) {
+  private FurnitureItem _getItemById(Long id) {
     Optional<FurnitureItem> found =
         _furnitureItems.stream().filter(item -> item.getId() == id).findAny();
     if (!found.isPresent()) {

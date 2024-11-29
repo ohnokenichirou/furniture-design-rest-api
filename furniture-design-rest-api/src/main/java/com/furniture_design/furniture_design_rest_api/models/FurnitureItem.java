@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "furnitures", schema = "business")
 public class FurnitureItem implements Serializable {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "id", nullable = false)
   private Long id;
 
